@@ -26,7 +26,7 @@ def get_transcript_text(video_id: str) -> str:
             return json.load(f)["text"]
 
     try:
-        fetched_transcript = YouTubeTranscriptApi().fetch(video_id, languages=['en'])
+        fetched_transcript = YouTubeTranscriptApi().fetch(video_id, languages=['ur', 'en', 'hi'])
         text = " ".join([snippet.text for snippet in fetched_transcript])
 
         with open(cache_file, "w", encoding="utf-8") as f:
@@ -81,6 +81,7 @@ def get_rag_answer(question: str, video_id: str) -> str:
         template="""
         You are a helpful assistant.
         Answer only from the provided transcript context.
+        Answer in the same language as the question.
         If the context is insufficient, just say you don't know.
         {context}
         Question: {question}
